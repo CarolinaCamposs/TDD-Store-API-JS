@@ -21,7 +21,46 @@ async function listProducts(req, res) {
   }
 }
 
+const updateProduct = async (req, res) => {
+  try {
+    const updateProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {new: true}
+    );
+
+    if(!updateProduct) {
+      return res.status(404).json({ message: 'Poduto não encontrado'});
+    }
+
+    res.json(updateProduct);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const deleteProduct = await Product.findByIdAndDelete(
+      req.params.id,
+      req.body,
+      {new: true}
+    );
+
+    if(!deleteProduct) {
+      return res.status(404).json({ message: 'Poduto não encontrado'});
+    }
+
+    res.json(deleteProduct);
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+};
+
+
 module.exports = {
   createProduct,
   listProducts,
+  updateProduct,
+  deleteProduct
 };
